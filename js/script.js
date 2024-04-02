@@ -5,13 +5,17 @@ const todoCompleted = document.querySelector('.todo-completed');
 
 let toDoData = [];
 
-if(localStorage.getItem('todo')) {
-	toDoData = JSON.parse(localStorage.getItem('todo'));
-}
+// if(localStorage.getItem('todo')) {
+// 	toDoData = JSON.parse(localStorage.getItem('todo'));
+// }
+// возращает массив данных
+const getData = function() {
+	return JSON.parse(localStorage.getItem('todo')) || [];
+}	
 
+toDoData = getData();
 // для работы с элементами
 const render = function() {
-	// toDoData = getData();
 	todoList.innerHTML = '';
 	todoCompleted.innerHTML = '';
 
@@ -47,6 +51,7 @@ const render = function() {
 			todoList.append(li);
 		}
 	})
+	setData();
 }
 
 todoControl.addEventListener('submit', function(event) {
@@ -70,10 +75,5 @@ todoControl.addEventListener('submit', function(event) {
 const setData = function() {
 	localStorage.setItem('todo', JSON.stringify(toDoData));
 }
-
-// возращает массив данных
-// const getData = function() {
-// 	return JSON.parse(localStorage.getItem('todo')) || [];
-// }	
 
 render();
