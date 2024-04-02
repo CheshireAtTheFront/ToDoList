@@ -5,12 +5,15 @@ const todoCompleted = document.querySelector('.todo-completed');
 
 let toDoData = [];
 
+if(localStorage.getItem('todo')) {
+	toDoData = JSON.parse(localStorage.getItem('todo'));
+}
+
 // для работы с элементами
 const render = function() {
+	// toDoData = getData();
 	todoList.innerHTML = '';
 	todoCompleted.innerHTML = '';
-
-	toDoData = getData();
 
 	toDoData.forEach(function(item) {
 		const li = document.createElement('li');
@@ -25,8 +28,9 @@ const render = function() {
 
 		li.querySelector('.todo-complete').addEventListener('click', function() {
 			item.completed = !item.completed;
-			
+		
 			render();
+			setData();
 		});
 
 		li.querySelector('.todo-remove').addEventListener('click', function() {
@@ -34,6 +38,7 @@ const render = function() {
 			toDoData.splice(itemIndex, 1);
 
 			render();
+			setData();
 		});
 
 		if(item.completed) {
@@ -57,7 +62,6 @@ todoControl.addEventListener('submit', function(event) {
 	} else {
 		toDoData.push(newToDo);
 		headerInput.value = '';
-		setData();
 	}
 	render();
 });
@@ -66,7 +70,10 @@ todoControl.addEventListener('submit', function(event) {
 const setData = function() {
 	localStorage.setItem('todo', JSON.stringify(toDoData));
 }
+
 // возращает массив данных
-const getData = function() {
-	return JSON.parse(localStorage.getItem('todo')) || [];
-}
+// const getData = function() {
+// 	return JSON.parse(localStorage.getItem('todo')) || [];
+// }	
+
+render();
